@@ -3,9 +3,9 @@ package org.usfirst.frc.team2526.robot;
 
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically it 
@@ -37,6 +37,8 @@ public class Robot extends SampleRobot {
         
         leftStick = new Joystick(0);
         rightStick = new Joystick(1);
+        
+        SmartDashboard.putBoolean("Reset", true);
     }
 
     
@@ -44,9 +46,13 @@ public class Robot extends SampleRobot {
      * Runs the motors with tank steering.
      */
     public void operatorControl() {
+    	long startTime = 0;
         while (isOperatorControl() && isEnabled()) {
-        	
-        	
+        	if (startTime == 0 || SmartDashboard.getBoolean("Reset")) {
+        		startTime = System.currentTimeMillis();
+        	}
+        	// Recording. 
+        	long elapsedTime = System.currentTimeMillis()-startTime;
             Timer.delay(0.005);		// wait for a motor update time
         }
     }
